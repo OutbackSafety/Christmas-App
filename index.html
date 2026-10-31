@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#163a2b">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Roo's European Christmas</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: sticky festive header with city ribbon → day strip → timeline column (max 760px), side panel views for Ideas/Budget/Packing/Bookings. */
+:root{
+  --bg:#f6f1e8;          /* snow-cream */
+  --paper:#fffdf8;
+  --fg:#2b2320;
+  --muted:#7a6b63;
+  --line:#e6dccf;
+  --pine:#1f4d3a;
+  --pine-deep:#163a2b;
+  --berry:#b8262b;
+  --berry-soft:#f3d9d8;
+  --gold:#d9a53b;
+  --gold-soft:#f7ead0;
+  --sky:#1b2b4a;
+  --shadow:0 6px 24px rgba(43,35,32,.10);
+  --dad:#1f4d3a; --mum:#b8262b; --ana:#c77c1a; --bea:#3f5fa8; --gp:#7a6b63;
+  --display:"Fraunces", Georgia, "Times New Roman", serif;
+  --body:"Nunito", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141a22; --paper:#1c242e; --fg:#f1e9dc; --muted:#a79b90; --line:#2d3842;
+  --pine:#2f7a5a; --pine-deep:#14281f; --berry:#e2474d; --berry-soft:#4a2224; --gold:#e4b659; --gold-soft:#3b3222; --sky:#0d1526;
+  --shadow:0 6px 24px rgba(0,0,0,.4); --dad:#4fa37c; --bea:#7f9ee6; --ana:#e0a04a; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#141a22; --paper:#1c242e; --fg:#f1e9dc; --muted:#a79b90; --line:#2d3842;
+  --pine:#2f7a5a; --pine-deep:#14281f; --berry:#e2474d; --berry-soft:#4a2224; --gold:#e4b659; --gold-soft:#3b3222; --sky:#0d1526;
+  --shadow:0 6px 24px rgba(0,0,0,.4); --dad:#4fa37c; --bea:#7f9ee6; --ana:#e0a04a; color-scheme:dark }
+
+*{box-sizing:border-box}
+html,body{height:100%}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--pine-deep)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+button{font:inherit;cursor:pointer}
+input,select,textarea{font:inherit;color:var(--fg);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.num{font-variant-numeric:tabular-nums}
+
+/* Snow */
+#snow{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.7}
+
+/* Header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--pine-deep);color:#fdf6e9;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.hd-in{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.brand h1{font-size:20px;font-weight:700;letter-spacing:.2px;color:#fdf6e9}
+.brand small{display:block;font-family:var(--body);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+nav button{background:transparent;border:1px solid transparent;color:#e9dfcf;padding:6px 11px;border-radius:999px;font-weight:700;font-size:13px}
+nav button[aria-current="page"]{background:var(--gold);color:#2b2320}
+.who{display:flex;align-items:center;gap:6px;font-size:13px}
+.who select{width:auto;background:#fdf6e9;color:#2b2320;padding:5px 8px;border-radius:999px;border:none;font-weight:700}
+
+/* Hero */
+.hero{position:relative;z-index:1;margin:0 auto;max-width:1100px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 0}
+.hero-card{position:relative;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);background:var(--sky);aspect-ratio:3/1;max-width:100%}
+.hero-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.hero-text{position:absolute;left:0;right:0;bottom:0;padding:18px 20px;background:linear-gradient(transparent,rgba(13,21,38,.85));color:#fff8ea}
+.hero-text h2{font-size:clamp(20px,3.6vw,34px);font-weight:700;font-style:italic}
+.hero-text p{margin:4px 0 0;font-size:13px;opacity:.9}
+.countdown{position:absolute;top:12px;right:12px;background:rgba(184,38,43,.92);color:#fff;border-radius:12px;padding:8px 12px;text-align:center;font-weight:800;line-height:1.1;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.countdown b{display:block;font-size:26px;font-family:var(--display)}
+.countdown span{font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+@media (max-width:520px){.hero-card{aspect-ratio:16/10}}
+
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 60px}
+.view{display:none}.view.active{display:block}
+
+/* City ribbon */
+.cities{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.city{flex:0 0 auto;border:1px solid var(--line);background:var(--paper);border-radius:14px;padding:8px 14px;text-align:left;min-width:120px;color:var(--fg)}
+.city b{display:block;font-family:var(--display);font-size:16px}
+.city span{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.city.on{background:var(--pine);color:#fdf6e9;border-color:var(--pine)}
+.city.on span{color:var(--gold)}
+
+/* Day strip */
+.days{display:flex;gap:6px;overflow-x:auto;margin-top:10px;padding-bottom:6px;scrollbar-width:thin}
+.day{flex:0 0 auto;width:58px;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:6px 4px;text-align:center;color:var(--fg);line-height:1.15}
+.day small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.day b{font-size:18px;font-family:var(--display)}
+.day em{display:block;font-style:normal;font-size:10px;color:var(--muted)}
+.day.on{background:var(--berry);border-color:var(--berry);color:#fff}.day.on small,.day.on em{color:#ffe3e3}
+
+/* Day header + timeline */
+.dayhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:16px 0 8px}
+.dayhead h2{font-size:24px}
+.dayhead .meta{color:var(--muted);font-size:13px}
+.stay{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);color:var(--fg);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}
+.timeline{display:grid;gap:10px;max-width:780px}
+.ev{display:grid;grid-template-columns:62px 1fr;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow);position:relative;border-left:5px solid var(--pine)}
+.ev.flight{border-left-color:var(--sky)}.ev.train{border-left-color:var(--gold)}.ev.food{border-left-color:var(--berry)}.ev.show{border-left-color:#7a3e9d}.ev.user{border-left-color:var(--ana)}
+.ev .t{font-weight:800;font-size:15px;line-height:1.2}
+.ev .t small{display:block;font-weight:600;color:var(--muted);font-size:11px}
+.ev .t .dwn{display:block;font-size:10px;color:var(--muted);margin-top:4px;line-height:1.2}
+.ev h3{font-size:16px;font-weight:700;line-height:1.25}
+.ev .loc{color:var(--muted);font-size:13px;margin-top:2px}
+.ev .loc a{color:var(--pine);font-weight:700;text-decoration:none}
+.ev .note{font-size:13px;margin-top:6px}
+.ev .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:800;color:#fff;background:var(--gp)}
+.chip.dad{background:var(--dad)}.chip.mum{background:var(--mum)}.chip.ana{background:var(--ana)}.chip.bea{background:var(--bea)}
+.tag{font-size:11px;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
+.cost{font-size:12px;font-weight:800;color:var(--pine)}
+.ev .acts{position:absolute;top:8px;right:8px;display:flex;gap:4px}
+.icon{background:transparent;border:1px solid var(--line);border-radius:8px;width:30px;height:30px;color:var(--muted);font-size:14px}
+.icon:hover{background:var(--bg)}
+.empty{color:var(--muted);padding:24px;text-align:center;border:1px dashed var(--line);border-radius:14px}
+.add{display:inline-flex;align-items:center;gap:8px;background:var(--berry);color:#fff;border:none;border-radius:999px;padding:10px 18px;font-weight:800;box-shadow:var(--shadow)}
+.add.secondary{background:var(--pine)}
+.fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:8}
+
+/* Generic panels */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.panel h2{font-size:20px;margin-bottom:8px}
+.lead{color:var(--muted);font-size:13px;margin:0 0 12px}
+ul.plain{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.idea{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg)}
+.idea b{flex:1;min-width:0}
+.idea small{color:var(--muted)}
+.btn{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-weight:700;color:var(--fg);font-size:13px}
+.btn.primary{background:var(--pine);color:#fff;border-color:var(--pine)}
+.btn.danger{color:var(--berry)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+td.r,th.r{text-align:right}
+.tbl{overflow-x:auto}
+.big{font-family:var(--display);font-size:30px;font-weight:700;color:var(--pine)}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.pack label{display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line)}
+.pack input[type=checkbox]{width:18px;height:18px;accent-color:var(--pine)}
+.pack label.done{color:var(--muted);text-decoration:line-through}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 12px;font-weight:700;color:var(--fg);font-size:13px}
+.tabs button.on{background:var(--pine);color:#fff;border-color:var(--pine)}
+.lock{color:var(--muted);font-size:12px}
+.private{filter:blur(5px);user-select:none}
+.ribbon{background:var(--gold-soft);border:1px solid var(--gold);border-radius:10px;padding:8px 12px;font-size:13px;margin-bottom:12px}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(20,25,34,.55);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+.modal.open{display:flex}
+.sheet{background:var(--paper);border-radius:16px;width:min(560px,100%);max-height:92vh;overflow:auto;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.sheet h2{font-size:20px;margin-bottom:10px}
+.f{display:grid;gap:10px}
+.f2{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+@media (max-width:480px){.f2{grid-template-columns:1fr}}
+.f label{display:grid;gap:4px;font-size:12px;font-weight:700;color:var(--muted)}
+.who-pick{display:flex;gap:6px;flex-wrap:wrap}
+.who-pick label{flex-direction:row;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--fg);font-size:13px}
+.who-pick input{width:auto}
+.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:999px;font-weight:700;font-size:13px;opacity:0;transition:opacity .25s;z-index:30;pointer-events:none}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion: reduce){#snow{display:none}}
+.sync{font-size:11px;color:#e9dfcf;opacity:.8}.sync.ok{color:#9fe0b7}.sync.off{color:#ffd27a}
+.nolink{max-width:560px;margin:40px auto;text-align:center}
+</style>
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<header>
+  <div class="hd-in">
+    <div class="brand">
+      <img src="hero-small.jpg" alt="">
+      <div><small>Hill family · Dec 2026</small><h1>Roo's European Christmas</h1></div>
+    </div>
+    <nav id="nav">
+      <button data-view="itin" aria-current="page">Itinerary</button>
+      <button data-view="ideas">Ideas</button>
+      <button data-view="budget">Budget</button>
+      <button data-view="pack">Packing</button>
+      <button data-view="book">Bookings</button>
+    </nav>
+    <span class="sync" id="sync"></span><div class="who"><span>I am</span>
+      <select id="me" aria-label="Who is using the app">
+        <option value="dad">Dad</option><option value="mum">Mum</option><option value="ana">Anastasia</option><option value="bea">Beatrice</option>
+        <option value="gp">Grandparent (view only)</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-card">
+    <img src="hero.jpg" alt="A kangaroo in a Christmas jumper and Santa hat standing in a snowy European Christmas market">
+    <div class="countdown" id="countdown"><b>—</b><span>sleeps to go</span></div>
+    <div class="hero-text"><h2>Darwin → London → Paris → Brussels → London → Darwin</h2><p>6 to 22 December 2026 · Dad, Mum, Anastasia and Beatrice</p></div>
+  </div>
+</section>
+
+<main>
+  <div id="nolink" class="panel nolink" hidden><h2>Ask Dad for the family link</h2><p class="lead">This app only opens from the private family link. Open that link once on this phone and it will remember.</p></div>
+  <div id="ro-banner" class="ribbon" hidden>You're following along as a grandparent. You can see the whole plan, but only the four travellers can change it.</div>
+
+  <!-- ITINERARY -->
+  <section class="view active" id="view-itin">
+    <div class="cities" id="cities"></div>
+    <div class="days" id="days"></div>
+    <div class="dayhead">
+      <div><h2 id="dayTitle"></h2><div class="meta" id="dayMeta"></div></div>
+      <div id="dayStay"></div>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <!-- IDEAS -->
+  <section class="view" id="view-ideas">
+    <div class="grid" id="ideasGrid"></div>
+  </section>
+
+  <!-- BUDGET -->
+  <section class="view" id="view-budget">
+    <div class="grid" style="margin-bottom:12px">
+      <div class="panel stat"><span>Trip total (planned)</span><b class="big num" id="budTotal">A$0</b></div>
+      <div class="panel stat"><span>Paid so far</span><b class="big num" id="budPaid">A$0</b></div>
+      <div class="panel stat"><span>Still to pay</span><b class="big num" id="budDue">A$0</b></div>
+    </div>
+    <div class="panel"><h2>By city</h2><div class="tbl"><table id="budCity"></table></div></div>
+    <div class="panel" style="margin-top:12px"><h2>Every costed item</h2><p class="lead">Costs come from events and bookings. Add a cost when you add or edit an item. Exchange rates are rough planning rates: £1 = A$1.95, €1 = A$1.65, S$1 = A$1.15.</p><div class="tbl"><table id="budItems"></table></div></div>
+  </section>
+
+  <!-- PACKING -->
+  <section class="view" id="view-pack">
+    <div class="tabs" id="packTabs"></div>
+    <div class="panel pack" id="packList"></div>
+    <div style="margin-top:10px;display:flex;gap:8px"><input id="packNew" placeholder="Add an item to this list…" aria-label="New packing item"><button class="btn primary" id="packAdd">Add</button></div>
+  </section>
+
+  <!-- BOOKINGS -->
+  <section class="view" id="view-book">
+    <p class="lead">Confirmation codes marked private are hidden from the grandparent view. Tap a code to copy it.</p>
+    <div class="tbl panel"><table id="bookTable"></table></div>
+    <div class="actions" style="justify-content:flex-start"><button class="add secondary" id="bookAdd">+ Add booking</button></div>
+  </section>
+</main>
+
+<button class="add fab" id="fab">+ Add to this day</button>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <form class="sheet" id="evForm">
+    <h2 id="mTitle">Add an event</h2>
+    <div class="f">
+      <label>What<input id="fTitle" required placeholder="e.g. Waffles at Maison Dandoy"></label>
+      <div class="f2">
+        <label>Day<select id="fDay"></select></label>
+        <label>Type<select id="fType"><option value="sight">Sight / activity</option><option value="food">Food</option><option value="show">Show / event</option><option value="train">Train</option><option value="flight">Flight</option><option value="other">Other</option></select></label>
+      </div>
+      <div class="f2">
+        <label>Start (local time)<input id="fStart" type="time"></label>
+        <label>End<input id="fEnd" type="time"></label>
+      </div>
+      <label>Location / address<input id="fLoc" placeholder="Street, area or landmark"></label>
+      <label>Link (tickets, map, booking page)<input id="fUrl" type="url" placeholder="https://"></label>
+      <div class="f2">
+        <label>Cost<input id="fCost" type="number" min="0" step="0.01" placeholder="0"></label>
+        <label>Currency<select id="fCur"><option>AUD</option><option>GBP</option><option>EUR</option><option>SGD</option></select></label>
+      </div>
+      <label>Who's going<div class="who-pick">
+        <label><input type="checkbox" value="dad" checked>Dad</label><label><input type="checkbox" value="mum" checked>Mum</label>
+        <label><input type="checkbox" value="ana" checked>Anastasia</label><label><input type="checkbox" value="bea" checked>Beatrice</label></div></label>
+      <label>Notes<textarea id="fNote" rows="3" placeholder="Booking tips, what to wear, why we want to go…"></textarea></label>
+    </div>
+    <div class="actions"><button type="button" class="btn danger" id="fDelete" hidden>Delete</button><button type="button" class="btn" id="fCancel">Cancel</button><button class="btn primary" type="submit">Save</button></div>
+  </form>
+</div>
+
+<div class="modal" id="bmodal" role="dialog" aria-modal="true">
+  <form class="sheet" id="bkForm">
+    <h2>Booking</h2>
+    <div class="f">
+      <label>What<input id="bTitle" required placeholder="e.g. Eurostar London → Paris"></label>
+      <div class="f2"><label>City / leg<select id="bCity"></select></label><label>Date<input id="bDate" type="date" min="2026-12-01" max="2026-12-31"></label></div>
+      <div class="f2"><label>Reference / code<input id="bRef" placeholder="ABC123"></label><label>Provider<input id="bProv" placeholder="Qantas, Hilton, Eurostar…"></label></div>
+      <div class="f2"><label>Cost<input id="bCost" type="number" min="0" step="0.01"></label><label>Currency<select id="bCur"><option>AUD</option><option>GBP</option><option>EUR</option><option>SGD</option></select></label></div>
+      <div class="f2"><label><span>Paid?</span><select id="bPaid"><option value="1">Paid</option><option value="0">Not yet</option></select></label><label><span>Private code?</span><select id="bPriv"><option value="1">Hide from grandparents</option><option value="0">Visible to all</option></select></label></div>
+    </div>
+    <div class="actions"><button type="button" class="btn danger" id="bDelete" hidden>Delete</button><button type="button" class="btn" id="bCancel">Cancel</button><button class="btn primary" type="submit">Save</button></div>
+  </form>
+</div>
+<div class="toast" id="toast"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script>
+
+// ---------- Reference data ----------
+const PEOPLE={dad:"Dad",mum:"Mum",ana:"Anastasia",bea:"Beatrice",gp:"Grandparents"};
+const RATES={AUD:1,GBP:1.95,EUR:1.65,SGD:1.15};
+const fmtA=n=>"A$"+Math.round(n).toLocaleString("en-AU");
+// Cities (segments). tz = UTC offset in hours during December (no DST in Europe then).
+const CITIES=[
+ {id:"au1",name:"Darwin",sub:"Depart",tz:9.5,days:["2026-12-06","2026-12-07"],stay:"Home → QF843 / QF81 / QF01"},
+ {id:"lon1",name:"London",sub:"8–11 Dec",tz:0,days:["2026-12-08","2026-12-09","2026-12-10","2026-12-11"],stay:"Hilton London Metropole, 225 Edgware Rd"},
+ {id:"par",name:"Paris",sub:"12–14 Dec",tz:1,days:["2026-12-12","2026-12-13","2026-12-14"],stay:"ibis Paris Gare du Nord Château-Landon"},
+ {id:"bru",name:"Brussels",sub:"15–16 Dec",tz:1,days:["2026-12-15","2026-12-16"],stay:"Novotel Brussels City Centre, Rue de la Vierge Noire 32"},
+ {id:"lon2",name:"London",sub:"17–20 Dec",tz:0,days:["2026-12-17","2026-12-18","2026-12-19","2026-12-20"],stay:"Hilton London Hyde Park"},
+ {id:"au2",name:"Home",sub:"Return",tz:9.5,days:["2026-12-21","2026-12-22"],stay:"QF2 / QF52 / QF824"},
+];
+const ALL=["dad","mum","ana","bea"];
+// Seed events from the itinerary document and the 10 Dec London programme.
+let _n=0;
+const SEED=[
+ e("2026-12-06","23:00",null,"flight","Arrive Darwin Airport","Darwin International Airport","Check in for QF843. Three flights ahead: Sydney, Singapore, London.",0,"AUD"),
+ e("2026-12-07","01:10","07:05","flight","QF843 Darwin → Sydney","Darwin Airport","Arrive Sydney 07:05 local."),
+ e("2026-12-07","11:40","17:00","flight","QF81 Sydney → Singapore","Sydney Airport T1","Arrive Singapore 17:00 local."),
+ e("2026-12-07","23:35",null,"flight","QF01 Singapore → London","Changi Airport","Overnight. Lands Heathrow 06:15 on 8 Dec."),
+ e("2026-12-08","06:15",null,"flight","Arrive Heathrow","Heathrow Airport","Heathrow Express or Elizabeth line to Paddington; Hilton Metropole is a short walk from Edgware Road."),
+ e("2026-12-08","14:00",null,"other","Check in · Hilton London Metropole","225 Edgware Road, W2 1JU","Early check-in if available. Gentle day; stay awake until local bedtime to beat jet lag."),
+ // 9 Dec Royal London walk (from the document)
+ e("2026-12-09","09:30","10:15","food","Coffee & Green Park walk","Green Park station","Crisp morning walk through Green Park down to the front of the palace."),
+ e("2026-12-09","10:15","11:15","sight","Buckingham Palace & Changing the Guard","Queen Victoria Memorial","Check the confirmed ceremony schedule for the date (usually Mon/Wed/Fri/Sun).",0,"AUD","https://changing-guard.com/"),
+ e("2026-12-09","11:15","12:30","sight","The Royal Mews or The King's Gallery","Buckingham Palace Rd","Gold State Coach at the Mews, or rotating exhibitions at the King's Gallery. Book ahead."),
+ e("2026-12-09","12:30","13:15","sight","St James's Park · Blue Bridge view","St James's Park","Famous palace view across the lake. Pelicans fed 2:30–3pm near Duck Island Cottage."),
+ e("2026-12-09","13:15","14:30","food","Lunch in Westminster","Victoria Street / The Albert pub","Hearty winter pub lunch."),
+ e("2026-12-09","14:30","16:00","sight","Westminster Abbey & Parliament Square","Parliament Square","Abbey facade, Big Ben and Houses of Parliament photos."),
+ e("2026-12-09","16:00","17:00","sight","London twilight on Westminster Bridge","Westminster Bridge","Dark by 4pm; Big Ben and London Eye lit up across the Thames."),
+ e("2026-12-09","17:30",null,"food","Festive afternoon tea or dinner","St James's / Mayfair","The Rubens at the Palace or The Ritz for holiday-themed tea. Book weeks ahead."),
+ // 10 Dec programme (from PDF)
+ e("2026-12-10","08:00","08:45","other","Circle line to Tower Hill","Edgware Road station","Breakfast at hotel first. 35–45 min door to door. Arrive before the Tower opens."),
+ e("2026-12-10","09:00","11:15","sight","Tower of London · Crown Jewels first","Tower of London, EC3N 4AB","Crown Jewels, White Tower, ravens, Tower Green. Note: partial Crown Jewels closure flagged for 9–10 Dec; re-check route.",0,"AUD","https://www.hrp.org.uk/tower-of-london/"),
+ e("2026-12-10","11:15","11:50","other","District line to Westminster","Tower Hill station","Direct, westbound."),
+ e("2026-12-10","11:50","12:25","food","Quick lunch","Westminster Abbey precinct","Keep it short; dinner is the big meal."),
+ e("2026-12-10","12:30","13:45","sight","Westminster Abbey","20 Deans Yard, SW1P 3PA","Coronation history, royal tombs, Poets' Corner. Book in advance; verify service times.",0,"AUD","https://www.westminster-abbey.org/"),
+ e("2026-12-10","13:45","14:05","sight","Big Ben & Houses of Parliament","Parliament Square","Exterior photos only."),
+ e("2026-12-10","14:05","14:35","sight","St James's Park walk","St James's Park","Walk toward the Palace; a break between big sights."),
+ e("2026-12-10","14:35","15:15","sight","Buckingham Palace","Buckingham Palace, SW1A 1AA","Exterior; 15:00 guard change if operating. Watch from the Mall edge."),
+ e("2026-12-10","15:15","16:15","sight","Piccadilly & Regent Street Christmas lights","Fortnum & Mason, Burlington Arcade","Skip Oxford Street crowds."),
+ e("2026-12-10","16:15","17:20","sight","Covent Garden at Christmas","Covent Garden Piazza, WC2E","Main Christmas tree, Apple Market, illuminated Piazza."),
+ e("2026-12-10","17:30","18:45","food","Pre-theatre dinner · Rules","35 Maiden Lane, WC2E 7LB","Est. 1798. Reserve for four at 17:30, mention the 19:30 show. Smart casual.",0,"AUD","https://rules.co.uk/"),
+ e("2026-12-10","19:30","22:00","show","West End show · The Lion King","Lyceum Theatre, 21 Wellington St","Seats by 19:20. Tube or taxi back to Edgware Road after."),
+ e("2026-12-11","10:00",null,"sight","Free day in London","Hilton Metropole base","Ideas: museums (Natural History, British Museum, Science Museum), Hamilton or The Mousetrap, Oxford day tour."),
+ e("2026-12-12","07:00","10:30","train","Eurostar London St Pancras → Paris Gare du Nord","St Pancras International","Arrive 45–60 min early for passport control. Hotel is a short walk from Gare du Nord.",0,"AUD","https://eurorails.com/en/trains/london/paris?date=2026-12-12&time=07%3A00%3A00&adults=1"),
+ e("2026-12-12","15:00",null,"other","Check in · ibis Paris Gare du Nord Château-Landon","10ème arrondissement","Drop bags, then an evening wander. Get a croissant."),
+ e("2026-12-13","10:00",null,"sight","Paris free day","Paris","Ideas: Louvre, Notre-Dame exterior, Christmas market on the Tuileries, Montmartre."),
+ e("2026-12-14","13:30","15:30","food","Lunch at the Eiffel Tower","Eiffel Tower, Champ de Mars","Booked lunch. Consider a guided tour before or after.",0,"AUD","https://www.getyourguide.com/en-au/eiffel-tower-l2600/"),
+ e("2026-12-15","07:30","09:00","train","Paris Gare du Nord → Brussels Midi","Gare du Nord","Leaving France. Metro to Novotel from Brussels Midi.",0,"AUD","https://eurorails.com/en/trains/paris/brussels?date=2026-12-15&time=07%3A00%3A00&adults=1"),
+ e("2026-12-15","15:00",null,"other","Check in · Novotel Brussels City Centre","Rue de la Vierge Noire 32, 1000 Brussels","Grand-Place and Christmas market (Plaisirs d'Hiver) are a few minutes' walk."),
+ e("2026-12-16","11:00",null,"food","Belgian waffle with Belgian chocolate","Grand-Place area","Non-negotiable."),
+ e("2026-12-17","08:00","09:30","train","Eurostar Brussels Midi → London St Pancras","Brussels Midi","Leaving Belgium. Then Tube to Hilton Hyde Park."),
+ e("2026-12-17","15:00",null,"other","Check in · Hilton London Hyde Park","Bayswater / Hyde Park","Winter Wonderland in Hyde Park is nearby."),
+ e("2026-12-18","10:00",null,"sight","London free day","Hyde Park base","Open for ideas."),
+ e("2026-12-19","10:00",null,"sight","London free day","Hyde Park base","Last full day. Christmas shopping?"),
+ e("2026-12-20","17:00",null,"flight","Arrive Heathrow for QF2","Heathrow Airport","Allow 3 hours before the 20:10 departure."),
+ e("2026-12-20","20:10",null,"flight","QF2 London → Singapore","Heathrow Airport","Arrive Singapore 17:40 on 21 Dec local."),
+ e("2026-12-21","17:40",null,"flight","Arrive Singapore","Changi Airport","Transit."),
+ e("2026-12-21","22:05",null,"flight","QF52 Singapore → Brisbane","Changi Airport","Overnight. Arrive Brisbane 05:55."),
+ e("2026-12-22","05:55",null,"flight","Arrive Brisbane","Brisbane Airport","Domestic transfer."),
+ e("2026-12-22","08:25","12:00","flight","QF824 Brisbane → Darwin","Brisbane Airport","Home at midday. Christmas in the Territory."),
+];
+function e(day,start,end,type,title,loc,note,cost,cur,url){return{id:"s"+String(++_n).padStart(3,"0"),day,start,end,type,title,loc,note,cost:cost||0,cur:cur||"AUD",url:url||"",who:[...ALL],by:"seed"}}
+const SEED_IDEAS=[
+ {city:"lon1",title:"West End show: Hamilton",note:"Victoria Palace Theatre"},
+ {city:"lon1",title:"West End show: The Mousetrap",note:"St Martin's Theatre, longest-running show"},
+ {city:"lon1",title:"Oxford day tour",note:"Book a guided tour"},
+ {city:"lon1",title:"Natural History Museum",note:"Cromwell Rd"},
+ {city:"lon1",title:"The British Museum",note:"Great Russell St"},
+ {city:"lon1",title:"National Gallery",note:"Trafalgar Square"},
+ {city:"lon1",title:"Science Museum",note:"Exhibition Rd"},
+ {city:"lon1",title:"Imperial War Museum",note:"Lambeth Rd, south of the Thames"},
+ {city:"par",title:"Eiffel Tower guided tour",note:"getyourguide.com"},
+ {city:"par",title:"Get a croissant",note:"Any boulangerie near Gare du Nord"},
+ {city:"bru",title:"Plaisirs d'Hiver Christmas market",note:"Grand-Place light show"},
+].map((i,n)=>({id:"i"+String(n+1).padStart(3,"0"),...i}));
+const SEED_BOOK=[
+ {title:"QF843 Darwin → Sydney",city:"au1",date:"2026-12-07",ref:"",prov:"Qantas",cost:0,cur:"AUD",paid:1,priv:1},
+ {title:"QF81 Sydney → Singapore · QF01 Singapore → London",city:"au1",date:"2026-12-07",ref:"",prov:"Qantas",cost:0,cur:"AUD",paid:1,priv:1},
+ {title:"Hilton London Metropole, 8–12 Dec",city:"lon1",date:"2026-12-08",ref:"",prov:"Hilton",cost:0,cur:"GBP",paid:0,priv:1},
+ {title:"Eurostar London → Paris",city:"par",date:"2026-12-12",ref:"",prov:"Eurostar",cost:0,cur:"EUR",paid:0,priv:1},
+ {title:"ibis Paris Gare du Nord Château-Landon, 12–15 Dec",city:"par",date:"2026-12-12",ref:"",prov:"ibis",cost:0,cur:"EUR",paid:0,priv:1},
+ {title:"Eiffel Tower lunch 14 Dec 13:30",city:"par",date:"2026-12-14",ref:"",prov:"",cost:0,cur:"EUR",paid:0,priv:1},
+ {title:"Train Paris → Brussels",city:"bru",date:"2026-12-15",ref:"",prov:"",cost:0,cur:"EUR",paid:0,priv:1},
+ {title:"Novotel Brussels City Centre, 15–17 Dec",city:"bru",date:"2026-12-15",ref:"",prov:"Novotel",cost:0,cur:"EUR",paid:0,priv:1},
+ {title:"Eurostar Brussels → London",city:"lon2",date:"2026-12-17",ref:"",prov:"Eurostar",cost:0,cur:"EUR",paid:0,priv:1},
+ {title:"Hilton London Hyde Park, 17–20 Dec",city:"lon2",date:"2026-12-17",ref:"",prov:"Hilton",cost:0,cur:"GBP",paid:0,priv:1},
+ {title:"QF2 London → Singapore · QF52 → Brisbane · QF824 → Darwin",city:"au2",date:"2026-12-20",ref:"",prov:"Qantas",cost:0,cur:"AUD",paid:1,priv:1},
+].map((b,n)=>({id:"b"+String(n+1).padStart(3,"0"),...b}));
+const SEED_PACK={
+ shared:["Passports (check 6+ months validity)","Travel insurance documents","UK ETA / EU entry paperwork","Power adaptors (UK type G, EU type C)","Portable charger","Printed hotel confirmations"],
+ dad:["Warm coat","Gloves and beanie","Waterproof shoes","Smart shirt for Rules"],
+ mum:["Warm coat","Scarf and gloves","Waterproof boots","Smart outfit for theatre"],
+ ana:["Warm coat","Thermals","Beanie, gloves, scarf","Headphones for the flights"],
+ bea:["Warm coat","Thermals","Beanie, gloves, scarf","Book / tablet for the flights"],
+};
+
+// ---------- State + Supabase sync ----------
+const C=window.ROO_CONFIG||{};
+const LS=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(_){return null}};
+const LSset=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}};
+// Trip id comes from the family link (#t=…) the first time, then is remembered on this phone.
+let TRIP=(location.hash.match(/t=([0-9a-f-]{36})/i)||[])[1]||LS("roo-trip");
+if(TRIP){LSset("roo-trip",TRIP); if(location.hash) history.replaceState(null,"",location.pathname)}
+let S={events:[],ideas:[],bookings:[],pack:{},me:LS("roo-me")||"mum",city:LS("roo-city")||"lon1",day:LS("roo-day")||"2026-12-10"};
+const rows=new Map(); // key kind|id -> row
+const key=(k,id)=>k+"|"+id;
+function rebuild(){
+  S.events=[];S.ideas=[];S.bookings=[];S.pack={};
+  for(const r of rows.values()){ if(r.deleted) continue;
+    if(r.kind==="event")S.events.push(r.data); else if(r.kind==="idea")S.ideas.push(r.data);
+    else if(r.kind==="booking")S.bookings.push(r.data); else if(r.kind==="pack")S.pack[r.id]=r.data.items||[]; }
+  LSset("roo-cache",[...rows.values()]);
+}
+function save(){LSset("roo-me",S.me);LSset("roo-city",S.city);LSset("roo-day",S.day)}
+let sb=null, queue=LS("roo-queue")||[];
+function setStatus(t,cls){const el=$("#sync");if(!el)return;el.textContent=t;el.className="sync "+(cls||"")}
+async function flush(){
+  if(!sb||!navigator.onLine||!queue.length) return;
+  const batch=queue.slice();
+  const {error}=await sb.from("trip_items").upsert(batch,{onConflict:"trip_id,kind,id"});
+  if(error){setStatus("Offline · will sync","off");return}
+  queue=queue.filter(q=>!batch.includes(q));LSset("roo-queue",queue);setStatus("Synced","ok");
+}
+function put(kind,id,data){ // write-through: local first, then Supabase (queued if offline)
+  const row={trip_id:TRIP,kind,id,data,deleted:false,updated_by:S.me,updated_at:new Date().toISOString()};
+  rows.set(key(kind,id),row);rebuild();
+  queue.push(row);LSset("roo-queue",queue);flush();
+}
+function del(kind,id){const r=rows.get(key(kind,id));if(!r)return;const row={...r,deleted:true,updated_by:S.me,updated_at:new Date().toISOString()};rows.set(key(kind,id),row);rebuild();queue.push(row);LSset("roo-queue",queue);flush()}
+function applyRemote(r){const k=key(r.kind,r.id),cur=rows.get(k);if(cur&&cur.updated_at>r.updated_at)return;rows.set(k,r);}
+async function seedIfEmpty(){
+  if(rows.size) return;
+  SEED.forEach(ev=>put("event",ev.id,ev));SEED_IDEAS.forEach(i=>put("idea",i.id,i));SEED_BOOK.forEach(b=>put("booking",b.id,b));
+  Object.entries(SEED_PACK).forEach(([who,items])=>put("pack",who,{items:items.map(t=>({t,done:false}))}));
+}
+async function connect(){
+  (LS("roo-cache")||[]).forEach(applyRemote);rebuild();
+  if(!TRIP){$("#nolink").hidden=false;return}
+  if(!window.supabase||!C.supabaseUrl||C.supabaseUrl.startsWith("PASTE")){setStatus("Not connected","off");if(!rows.size){await seedIfEmpty();showView(currentView())}return}
+  sb=window.supabase.createClient(C.supabaseUrl,C.supabaseAnonKey);
+  setStatus("Connecting…");
+  const {data,error}=await sb.from("trip_items").select("*").eq("trip_id",TRIP);
+  if(error){setStatus("Offline · showing saved copy","off")}
+  else{data.forEach(applyRemote);rebuild();await seedIfEmpty();setStatus("Synced","ok");showView(currentView())}
+  await flush();
+  sb.channel("trip-"+TRIP).on("postgres_changes",{event:"*",schema:"public",table:"trip_items",filter:"trip_id=eq."+TRIP},p=>{
+    if(p.new){applyRemote(p.new);rebuild();showView(currentView());}
+  }).subscribe(st=>{if(st==="SUBSCRIBED")setStatus("Live","ok")});
+  addEventListener("online",()=>{setStatus("Back online");flush()});
+  addEventListener("offline",()=>setStatus("Offline · will sync","off"));
+}
+const $=s=>document.querySelector(s);
+const readOnly=()=>S.me==="gp";
+const cityOf=day=>CITIES.find(c=>c.days.includes(day));
+const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const dLabel=d=>{const x=new Date(d+"T12:00:00");return{dow:DOW[x.getDay()],n:x.getDate()}};
+const longDate=d=>new Date(d+"T12:00:00").toLocaleDateString("en-AU",{weekday:"long",day:"numeric",month:"long"});
+function toDarwin(day,hm,tz){
+  const [h,m]=hm.split(":").map(Number); let mins=h*60+m-tz*60+9.5*60; let dd=0;
+  while(mins<0){mins+=1440;dd--} while(mins>=1440){mins-=1440;dd++}
+  const H=String(Math.floor(mins/60)).padStart(2,"0"),M=String(mins%60).padStart(2,"0");
+  return `Darwin ${H}:${M}${dd?(dd>0?" next day":" prev day"):""}`;
+}
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
+function esc(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+// ---------- Nav ----------
+document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+function showView(v){
+  document.querySelectorAll("#nav button").forEach(b=>b.toggleAttribute("aria-current",b.dataset.view===v)&&b.setAttribute("aria-current","page"));
+  document.querySelectorAll("#nav button").forEach(b=>{if(b.dataset.view!==v)b.removeAttribute("aria-current")});
+  document.querySelectorAll(".view").forEach(s=>s.classList.toggle("active",s.id==="view-"+v));
+  $("#fab").hidden=v!=="itin"||readOnly();
+  ({itin:renderItin,ideas:renderIdeas,budget:renderBudget,pack:renderPack,book:renderBook})[v]();
+}
+$("#me").value=S.me;
+$("#me").addEventListener("change",ev=>{S.me=ev.target.value;save();applyRole();showView(currentView())});
+function currentView(){return document.querySelector("#nav button[aria-current]").dataset.view}
+function applyRole(){$("#ro-banner").hidden=!readOnly();$("#fab").hidden=readOnly()||currentView()!=="itin"}
+
+// ---------- Countdown ----------
+(function(){const n=Math.ceil((new Date("2026-12-06T23:00:00+09:30")-Date.now())/864e5);$("#countdown b").textContent=n>0?n:(n>-17?"🎄":"🦘")})();
+
+// ---------- Itinerary ----------
+function renderItin(){
+  const c=$("#cities");c.innerHTML="";
+  CITIES.forEach(ct=>{const b=document.createElement("button");b.className="city"+(ct.id===S.city?" on":"");b.innerHTML=`<b>${ct.name}</b><span>${ct.sub}</span>`;b.onclick=()=>{S.city=ct.id;if(!ct.days.includes(S.day))S.day=ct.days[0];save();renderItin()};c.appendChild(b)});
+  const ct=CITIES.find(x=>x.id===S.city);
+  const d=$("#days");d.innerHTML="";
+  ct.days.forEach(day=>{const l=dLabel(day);const b=document.createElement("button");b.className="day"+(day===S.day?" on":"");const n=S.events.filter(e=>e.day===day).length;b.innerHTML=`<small>${l.dow}</small><b>${l.n}</b><em>${n} item${n===1?"":"s"}</em>`;b.onclick=()=>{S.day=day;save();renderItin()};d.appendChild(b)});
+  $("#dayTitle").textContent=longDate(S.day);
+  $("#dayMeta").textContent=`${ct.name} · local time (UTC${ct.tz>=0?"+":""}${ct.tz})`;
+  $("#dayStay").innerHTML=`<span class="stay">🛏 ${esc(ct.stay)}</span>`;
+  const list=S.events.filter(e=>e.day===S.day).sort((a,b)=>(a.start||"99").localeCompare(b.start||"99"));
+  const tl=$("#timeline");tl.innerHTML="";
+  if(!list.length){tl.innerHTML=`<div class="empty">Nothing planned yet. ${readOnly()?"":"Add something, or pull an idea across from the Ideas tab."}</div>`;return}
+  list.forEach(ev=>{
+    const el=document.createElement("article");el.className="ev "+ev.type+(ev.by!=="seed"?" user":"");
+    const isTravel=ev.type==="flight";
+    const dwn=isTravel&&ev.start?`<span class="dwn">${toDarwin(ev.day,ev.start,ct.tz)}</span>`:"";
+    const costA=ev.cost?ev.cost*RATES[ev.cur]:0;
+    el.innerHTML=`<div class="t num">${ev.start||"—"}${ev.end?`<small>to ${ev.end}</small>`:""}${dwn}</div>
+      <div><h3>${esc(ev.title)}</h3>
+      ${ev.loc?`<div class="loc">📍 ${esc(ev.loc)} · <a target="_blank" rel="noopener" href="https://www.google.com/maps/search/${encodeURIComponent(ev.loc+" "+ct.name)}">map</a>${ev.url?` · <a target="_blank" rel="noopener" href="${esc(ev.url)}">link</a>`:""}</div>`:(ev.url?`<div class="loc"><a target="_blank" rel="noopener" href="${esc(ev.url)}">link</a></div>`:"")}
+      ${ev.note?`<div class="note">${esc(ev.note)}</div>`:""}
+      <div class="row">${ev.who.length===4?`<span class="tag">Everyone</span>`:ev.who.map(w=>`<span class="chip ${w}">${PEOPLE[w]}</span>`).join("")}
+      ${ev.cost?`<span class="cost num">${ev.cur} ${ev.cost} ≈ ${fmtA(costA)}</span>`:""}${ev.by&&ev.by!=="seed"?`<span class="tag">added by ${PEOPLE[ev.by]||ev.by}</span>`:""}</div></div>
+      ${readOnly()?"":`<div class="acts"><button class="icon" title="Edit" aria-label="Edit">✎</button></div>`}`;
+    if(!readOnly())el.querySelector(".icon").onclick=()=>openEv(ev);
+    tl.appendChild(el);
+  });
+}
+
+// ---------- Event modal ----------
+const modal=$("#modal");let editing=null;
+function fillDays(sel,val){sel.innerHTML=CITIES.flatMap(c=>c.days.map(d=>`<option value="${d}">${c.name} · ${longDate(d)}</option>`)).join("");sel.value=val}
+function openEv(ev,preset){
+  editing=ev||null;$("#mTitle").textContent=ev?"Edit event":"Add an event";
+  fillDays($("#fDay"),ev?ev.day:S.day);
+  $("#fTitle").value=ev?ev.title:(preset?.title||"");$("#fType").value=ev?ev.type:"sight";$("#fStart").value=ev?.start||"";$("#fEnd").value=ev?.end||"";
+  $("#fLoc").value=ev?.loc||preset?.note||"";$("#fUrl").value=ev?.url||"";$("#fCost").value=ev?.cost||"";$("#fCur").value=ev?.cur||(cityOf(S.day).tz===0?"GBP":cityOf(S.day).tz===1?"EUR":"AUD");$("#fNote").value=ev?.note||"";
+  document.querySelectorAll(".who-pick input").forEach(i=>i.checked=ev?ev.who.includes(i.value):true);
+  $("#fDelete").hidden=!ev;modal.classList.add("open");$("#fTitle").focus();
+}
+$("#fab").onclick=()=>openEv(null);
+$("#fCancel").onclick=()=>modal.classList.remove("open");
+$("#fDelete").onclick=()=>{del("event",editing.id);modal.classList.remove("open");renderItin();toast("Deleted")};
+$("#evForm").onsubmit=ev=>{ev.preventDefault();
+  const who=[...document.querySelectorAll(".who-pick input:checked")].map(i=>i.value);
+  const o={title:$("#fTitle").value.trim(),day:$("#fDay").value,type:$("#fType").value,start:$("#fStart").value,end:$("#fEnd").value,loc:$("#fLoc").value.trim(),url:$("#fUrl").value.trim(),cost:+$("#fCost").value||0,cur:$("#fCur").value,note:$("#fNote").value.trim(),who:who.length?who:[...ALL]};
+  if(editing){Object.assign(editing,o);put("event",editing.id,editing)}else{const n={id:"u"+Date.now(),by:S.me,...o};put("event",n.id,n)}
+  S.day=o.day;S.city=cityOf(o.day).id;save();modal.classList.remove("open");renderItin();toast(editing?"Saved":"Added to "+longDate(o.day));
+};
+modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});
+
+// ---------- Ideas ----------
+function renderIdeas(){
+  const g=$("#ideasGrid");g.innerHTML="";
+  const groups=[["lon1","London"],["par","Paris"],["bru","Brussels"],["lon2","London (second stay)"]];
+  groups.forEach(([id,name])=>{
+    const items=S.ideas.filter(i=>i.city===id);
+    const p=document.createElement("div");p.className="panel";
+    p.innerHTML=`<h2>${name}</h2><p class="lead">Things to sort. "Plan it" opens the event form on a day in ${name.split(" ")[0]}.</p><ul class="plain">${items.map(i=>`<li class="idea"><b>${esc(i.title)}<br><small>${esc(i.note||"")}</small></b>${readOnly()?"":`<button class="btn primary" data-plan="${i.id}">Plan it</button><button class="icon" data-del="${i.id}" aria-label="Remove">✕</button>`}</li>`).join("")||`<li class="empty">No ideas yet</li>`}</ul>
+      ${readOnly()?"":`<div style="display:flex;gap:8px;margin-top:10px"><input placeholder="New idea for ${name.split(" ")[0]}…" aria-label="New idea" data-new="${id}"><button class="btn" data-add="${id}">Add</button></div>`}`;
+    g.appendChild(p);
+  });
+  g.querySelectorAll("[data-plan]").forEach(b=>b.onclick=()=>{const i=S.ideas.find(x=>x.id===b.dataset.plan);const c=CITIES.find(x=>x.id===i.city);S.city=c.id;S.day=c.days[1]||c.days[0];save();showView("itin");openEv(null,{title:i.title,note:i.note})});
+  g.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{del("idea",b.dataset.del);renderIdeas()});
+  g.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{const inp=g.querySelector(`[data-new="${b.dataset.add}"]`);if(!inp.value.trim())return;const n={id:"i"+Date.now(),city:b.dataset.add,title:inp.value.trim(),note:"added by "+PEOPLE[S.me]};put("idea",n.id,n);renderIdeas()});
+}
+
+// ---------- Budget ----------
+function renderBudget(){
+  const items=[...S.events.filter(e=>e.cost).map(e=>({city:cityOf(e.day).id,title:e.title,date:e.day,cost:e.cost,cur:e.cur,paid:null,src:"event"})),
+               ...S.bookings.filter(b=>b.cost).map(b=>({city:b.city,title:b.title,date:b.date,cost:b.cost,cur:b.cur,paid:b.paid,src:"booking"}))];
+  const aud=i=>i.cost*RATES[i.cur];
+  const total=items.reduce((s,i)=>s+aud(i),0),paid=items.filter(i=>i.paid==1).reduce((s,i)=>s+aud(i),0);
+  $("#budTotal").textContent=fmtA(total);$("#budPaid").textContent=fmtA(paid);$("#budDue").textContent=fmtA(total-paid);
+  $("#budCity").innerHTML=`<tr><th>Leg</th><th class="r">Items</th><th class="r">Planned (A$)</th></tr>`+CITIES.map(c=>{const it=items.filter(i=>i.city===c.id);return `<tr><td>${c.name} <small style="color:var(--muted)">${c.sub}</small></td><td class="r num">${it.length}</td><td class="r num">${fmtA(it.reduce((s,i)=>s+aud(i),0))}</td></tr>`}).join("");
+  $("#budItems").innerHTML=`<tr><th>Item</th><th>Date</th><th class="r">Cost</th><th class="r">≈ A$</th><th>Status</th></tr>`+(items.sort((a,b)=>a.date.localeCompare(b.date)).map(i=>`<tr><td>${esc(i.title)}<br><small style="color:var(--muted)">${i.src}</small></td><td class="num">${i.date.slice(5).replace("-","/")}</td><td class="r num">${i.cur} ${i.cost.toLocaleString()}</td><td class="r num">${fmtA(aud(i))}</td><td>${i.paid===null?"—":i.paid==1?"Paid":"To pay"}</td></tr>`).join("")||`<tr><td colspan="5" class="empty">No costs entered yet. Add a cost to any event or booking and it shows up here.</td></tr>`);
+}
+
+// ---------- Packing ----------
+let packWho="shared";
+function renderPack(){
+  const t=$("#packTabs");t.innerHTML=["shared","dad","mum","ana","bea"].map(k=>`<button class="${k===packWho?"on":""}" data-k="${k}">${k==="shared"?"Family":PEOPLE[k]}</button>`).join("");
+  t.querySelectorAll("button").forEach(b=>b.onclick=()=>{packWho=b.dataset.k;renderPack()});
+  const l=$("#packList");const items=S.pack[packWho]||[];
+  l.innerHTML=items.map((it,i)=>`<label class="${it.done?"done":""}"><input type="checkbox" data-i="${i}" ${it.done?"checked":""} ${readOnly()?"disabled":""}><span style="flex:1">${esc(it.t)}</span>${readOnly()?"":`<button class="icon" data-x="${i}" aria-label="Remove">✕</button>`}</label>`).join("")||`<div class="empty">Nothing on this list yet</div>`;
+  l.querySelectorAll("input").forEach(c=>c.onchange=()=>{items[+c.dataset.i].done=c.checked;put("pack",packWho,{items});renderPack()});
+  l.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>{items.splice(+b.dataset.x,1);put("pack",packWho,{items});renderPack()});
+  $("#packNew").disabled=$("#packAdd").disabled=readOnly();
+}
+$("#packAdd").onclick=()=>{const v=$("#packNew").value.trim();if(!v)return;const items=(S.pack[packWho]||[]).concat([{t:v,done:false}]);$("#packNew").value="";put("pack",packWho,{items});renderPack()};
+$("#packNew").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("#packAdd").click()}});
+
+// ---------- Bookings ----------
+const bmodal=$("#bmodal");let bEditing=null;
+function renderBook(){
+  const rows=[...S.bookings].sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+  $("#bookTable").innerHTML=`<tr><th>Booking</th><th>Date</th><th>Reference</th><th class="r">Cost</th><th>Status</th>${readOnly()?"":"<th></th>"}</tr>`+rows.map(b=>{
+    const hide=readOnly()&&b.priv==1;
+    return `<tr><td>${esc(b.title)}<br><small style="color:var(--muted)">${esc(b.prov||"")}</small></td><td class="num">${b.date?b.date.slice(5).replace("-","/"):"—"}</td>
+      <td>${b.ref?(hide?`<span class="private">••••••</span> <span class="lock">🔒</span>`:`<button class="btn num" data-copy="${esc(b.ref)}" title="Copy">${esc(b.ref)}</button>${b.priv==1?' <span class="lock">🔒</span>':""}`):`<span style="color:var(--muted)">not entered</span>`}</td>
+      <td class="r num">${b.cost?`${b.cur} ${b.cost.toLocaleString()}`:"—"}</td><td>${b.paid==1?"Paid":"To pay"}</td>${readOnly()?"":`<td><button class="icon" data-edit="${b.id}" aria-label="Edit">✎</button></td>`}</tr>`}).join("");
+  $("#bookTable").querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>{navigator.clipboard?.writeText(b.dataset.copy).then(()=>toast("Copied")).catch(()=>{const r=document.createRange();r.selectNodeContents(b);getSelection().removeAllRanges();getSelection().addRange(r)})});
+  $("#bookTable").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>openBk(S.bookings.find(x=>x.id===b.dataset.edit)));
+  $("#bookAdd").hidden=readOnly();
+}
+function openBk(b){bEditing=b||null;$("#bCity").innerHTML=CITIES.map(c=>`<option value="${c.id}">${c.name} · ${c.sub}</option>`).join("");
+  $("#bTitle").value=b?.title||"";$("#bCity").value=b?.city||S.city;$("#bDate").value=b?.date||S.day;$("#bRef").value=b?.ref||"";$("#bProv").value=b?.prov||"";$("#bCost").value=b?.cost||"";$("#bCur").value=b?.cur||"AUD";$("#bPaid").value=b?String(b.paid):"0";$("#bPriv").value=b?String(b.priv):"1";
+  $("#bDelete").hidden=!b;bmodal.classList.add("open");$("#bTitle").focus()}
+$("#bookAdd").onclick=()=>openBk(null);$("#bCancel").onclick=()=>bmodal.classList.remove("open");
+$("#bDelete").onclick=()=>{del("booking",bEditing.id);bmodal.classList.remove("open");renderBook()};
+$("#bkForm").onsubmit=ev=>{ev.preventDefault();const o={title:$("#bTitle").value.trim(),city:$("#bCity").value,date:$("#bDate").value,ref:$("#bRef").value.trim(),prov:$("#bProv").value.trim(),cost:+$("#bCost").value||0,cur:$("#bCur").value,paid:+$("#bPaid").value,priv:+$("#bPriv").value};
+  if(bEditing){Object.assign(bEditing,o);put("booking",bEditing.id,bEditing)}else{const n={id:"b"+Date.now(),...o};put("booking",n.id,n)}bmodal.classList.remove("open");renderBook();toast("Saved")};
+bmodal.addEventListener("click",e=>{if(e.target===bmodal)bmodal.classList.remove("open")});
+
+// ---------- Snow ----------
+(function(){const c=$("#snow");if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const x=c.getContext("2d");let W,H,flakes=[];
+ function size(){W=c.width=innerWidth;H=c.height=innerHeight;flakes=Array.from({length:Math.min(140,Math.floor(W/9))},()=>({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*2.4,s:.4+Math.random()*.9,d:Math.random()*Math.PI*2}))}
+ size();addEventListener("resize",size);
+ (function tick(){x.clearRect(0,0,W,H);x.fillStyle="rgba(255,255,255,.85)";flakes.forEach(f=>{f.y+=f.s;f.d+=.01;f.x+=Math.sin(f.d)*.4;if(f.y>H){f.y=-5;f.x=Math.random()*W}x.beginPath();x.arc(f.x,f.y,f.r,0,7);x.fill()});requestAnimationFrame(tick)})();
+})();
+
+applyRole();renderItin();connect();
+if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+
+</script>
+</body>
+</html>
